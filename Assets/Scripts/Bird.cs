@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Bird : MonoBehaviour
 { 
@@ -8,11 +6,16 @@ public class Bird : MonoBehaviour
     private Rigidbody _rigidbody;
 
     private int _jumpCount;
+    private Transform _bird;
+    [SerializeField] private int _powerDirection;
 
     public int JumpCount => _jumpCount;
 
-    private void Awake() => 
+    private void Awake()
+    {
         _rigidbody = GetComponent<Rigidbody>();
+        _bird = GetComponent<Transform>();
+    }
 
     private void Update()
     {
@@ -20,6 +23,18 @@ public class Bird : MonoBehaviour
         {
             _rigidbody.AddForce(_jumpForce, ForceMode.Impulse);
             _jumpCount++;
+        }
+        
+        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            _bird.GetComponent<Rigidbody>().velocity = new Vector3(0-_powerDirection, 0, 0);
+            _jumpCount+=3;
+        }
+
+        if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            _bird.GetComponent<Rigidbody>().velocity = new Vector3(0+_powerDirection, 0, 0);
+            _jumpCount+=3;
         }
     }
 

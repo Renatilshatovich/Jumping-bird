@@ -9,9 +9,13 @@ namespace DefaultNamespace
 
         [SerializeField] private GameObject _upperBoundary;
         [SerializeField] private GameObject _lowerBoundary;
-        
+        [SerializeField] private GameObject _rightBoundary;
+        [SerializeField] private GameObject _leftBoundary;
+
         [SerializeField] private float _upperYLimmit;
         [SerializeField] private float _lowerYLimmit;
+        [SerializeField] private float _rightXLimmit;
+        [SerializeField] private float _leftXLimmit;
 
         private bool isRunning;
         
@@ -30,7 +34,8 @@ namespace DefaultNamespace
         }
 
         private bool IsOutOfBoundary() => 
-            _bird.transform.position.y > _upperYLimmit || _bird.transform.position.y < _lowerYLimmit;
+            _bird.transform.position.y > _upperYLimmit || _bird.transform.position.y < _lowerYLimmit || 
+            _bird.transform.position.x > _rightXLimmit || _bird.transform.position.x < _leftXLimmit;
 
         private void LooseGame()
         {
@@ -49,6 +54,8 @@ namespace DefaultNamespace
 
             _upperBoundary.transform.position = new Vector3(0, _upperYLimmit+.5f, 0);
             _lowerBoundary.transform.position = new Vector3(0, _lowerYLimmit-.5f, 0);
+            _rightBoundary.transform.position = new Vector3(_rightXLimmit+.5f, 1, 0);
+            _leftBoundary.transform.position = new Vector3(_leftXLimmit-.5f, 1, 0);
             
             isRunning = true;
         }
