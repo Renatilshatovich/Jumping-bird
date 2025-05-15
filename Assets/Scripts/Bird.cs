@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Vector3 jumpForce;
+    [SerializeField] private Rigidbody _rigidbody;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space)) 
+            _rigidbody.AddForce(jumpForce, ForceMode.Impulse);
     }
 }
