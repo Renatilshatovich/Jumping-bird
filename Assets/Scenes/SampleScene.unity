@@ -455,8 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30d752014d28c1af8df6c3d8d7171e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: {x: 0, y: 10, z: 0}
-  _rigidbody: {fileID: 967336199}
+  _jumpForce: {x: 0, y: 10, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
