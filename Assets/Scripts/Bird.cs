@@ -6,19 +6,26 @@ public class Bird : MonoBehaviour
     private Rigidbody _rigidbody;
 
     private int _jumpCount;
-    private Transform _bird;
+    private Transform _transform;
     [SerializeField] private int _powerDirection;
-
+    
     public int JumpCount => _jumpCount;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _bird = GetComponent<Transform>();
+        _transform = GetComponent<Transform>();
     }
 
     private void Update()
     {
+        
+        if (_jumpCount >= 10)
+        {
+            _rigidbody.isKinematic = true;
+            Debug.Log("Вы ПОБЕДИЛИ!");
+        }
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _rigidbody.AddForce(_jumpForce, ForceMode.Impulse);
@@ -27,13 +34,13 @@ public class Bird : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            _bird.GetComponent<Rigidbody>().velocity = new Vector3(0-_powerDirection, 0, 0);
+            _transform.GetComponent<Rigidbody>().velocity = new Vector3(0-_powerDirection, 0, 0);
             _jumpCount+=3;
         }
 
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            _bird.GetComponent<Rigidbody>().velocity = new Vector3(0+_powerDirection, 0, 0);
+            _transform.GetComponent<Rigidbody>().velocity = new Vector3(0+_powerDirection, 0, 0);
             _jumpCount+=3;
         }
     }

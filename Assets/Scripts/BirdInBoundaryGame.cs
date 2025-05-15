@@ -47,6 +47,7 @@ namespace DefaultNamespace
 
         private void StartGame()
         {
+            _bird.GetComponent<Rigidbody>().isKinematic = false;    
             _bird.gameObject.SetActive(true);
             _bird.transform.position = new Vector3(0, 0, 0);
             _bird.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
