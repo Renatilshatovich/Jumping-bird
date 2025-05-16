@@ -622,7 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpForce: {x: 0, y: 10, z: 0}
-  _powerDirection: 7
+  _movePower: 7
 --- !u!1 &1128582480
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,15 +652,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3d1c2364544d358181aa466be545a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scoreToWin: 20
   _bird: {fileID: 967336204}
   _upperBoundary: {fileID: 1260293190}
   _lowerBoundary: {fileID: 1185103022}
   _rightBoundary: {fileID: 793346198}
   _leftBoundary: {fileID: 919388445}
-  _upperYLimmit: 6
-  _lowerYLimmit: -4
-  _rightXLimmit: 6
-  _leftXLimmit: -6
+  _upperYLimit: 5
+  _lowerYLimit: -4
+  _rightXLimit: 6
+  _leftXLimit: -6
 --- !u!4 &1128582482
 Transform:
   m_ObjectHideFlags: 0

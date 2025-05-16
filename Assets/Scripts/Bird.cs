@@ -1,50 +1,61 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Bird : MonoBehaviour
 { 
-    [SerializeField] private Vector3 _jumpForce;
-    private Rigidbody _rigidbody;
-
-    private int _jumpCount;
-    private Transform _transform;
-    [SerializeField] private int _powerDirection;
+    [Header("Jump Settings")]
+    [SerializeField] private Vector3 _jumpForce = new Vector3(0, 10, 0);
+    [SerializeField] private int _movePower = 7;     
     
-    public int JumpCount => _jumpCount;
+    public int VerticalJumps { get; private set; }
+    public int HorizontalJumps { get; private set; }
+    
+    private Rigidbody _rigidbody;
+    
 
-    private void Awake()
-    {
+    private void Awake() => 
         _rigidbody = GetComponent<Rigidbody>();
-        _transform = GetComponent<Transform>();
-    }
 
     private void Update()
     {
         
-        if (_jumpCount >= 10)
-        {
-            _rigidbody.isKinematic = true;
-            Debug.Log("Вы ПОБЕДИЛИ!");
-        }
+        if (Input.GetKeyDown(KeyCode.Space)) 
+            Jump();
         
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _rigidbody.AddForce(_jumpForce, ForceMode.Impulse);
-            _jumpCount++;
-        }
-        
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            _transform.GetComponent<Rigidbody>().velocity = new Vector3(0-_powerDirection, 0, 0);
-            _jumpCount+=3;
-        }
+        if (Input.GetKeyUp(KeyCode.LeftArrow)) 
+            MoveLeft();
 
-        if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            _transform.GetComponent<Rigidbody>().velocity = new Vector3(0+_powerDirection, 0, 0);
-            _jumpCount+=3;
-        }
+        if (Input.GetKeyUp(KeyCode.RightArrow)) 
+            MoveRight();
     }
 
-    public void RestJumpCounter() => 
-        _jumpCount = 0;
+    private void MoveRight()
+    {
+        _rigidbody.velocity = new Vector3(+_movePower, 0, 0);
+        HorizontalJumps++;
+    }
+
+    private void MoveLeft()
+    {
+        _rigidbody.velocity = new Vector3(-_movePower, 0, 0);
+        HorizontalJumps++;
+    }
+
+    private void Jump()
+    {
+        _rigidbody.AddForce(_jumpForce, ForceMode.Impulse);
+        VerticalJumps++;
+    }
+
+    public void RestJumpCounter()
+    {
+        HorizontalJumps = 0;
+        VerticalJumps = 0;
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.isKinematic = false;
+    }
+
+
+    public void Stop() => 
+        _rigidbody.isKinematic = true;
 }

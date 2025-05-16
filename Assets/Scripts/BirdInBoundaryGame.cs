@@ -5,20 +5,28 @@ namespace DefaultNamespace
     public class BirdInBoundaryGame : MonoBehaviour
     {
         private const string LooseMessage = "Вы проиграли!";
+        
+        [Header("Game Rules")] 
+        [SerializeField] private int _scoreToWin = 20;
+        private int _horizontalJumpScore = 3;
+        
+        [Header("References")]
         [SerializeField] private Bird _bird;
-
         [SerializeField] private GameObject _upperBoundary;
         [SerializeField] private GameObject _lowerBoundary;
         [SerializeField] private GameObject _rightBoundary;
         [SerializeField] private GameObject _leftBoundary;
 
-        [SerializeField] private float _upperYLimmit;
-        [SerializeField] private float _lowerYLimmit;
-        [SerializeField] private float _rightXLimmit;
-        [SerializeField] private float _leftXLimmit;
+        [Header("Boundaries")]
+        private float boundaryOffset = 0.5f;
+        [SerializeField] private float _upperYLimit = 5;
+        [SerializeField] private float _lowerYLimit = -4;
+        [SerializeField] private float _rightXLimit = 6;
+        [SerializeField] private float _leftXLimit = -6;
 
-        private bool isRunning;
-        
+        private bool _isRunning;
+        private int _totalScore;
+
         private void Awake() => StartGame();
 
         private void Update()
@@ -26,39 +34,66 @@ namespace DefaultNamespace
             if (Input.GetKeyDown(KeyCode.F)) 
                 StartGame();
 
-            if (isRunning == false)
+            if (!_isRunning)
                 return;
 
+            UpdateScore();
+            CheckWinCondition();
+            
             if (IsOutOfBoundary()) 
-                LooseGame();
+                LoseGame();
         }
 
-        private bool IsOutOfBoundary() => 
-            _bird.transform.position.y > _upperYLimmit || _bird.transform.position.y < _lowerYLimmit || 
-            _bird.transform.position.x > _rightXLimmit || _bird.transform.position.x < _leftXLimmit;
+        private void UpdateScore()
+        {
+            _totalScore = 
+                _bird.VerticalJumps + _bird.HorizontalJumps * _horizontalJumpScore;
+        }
 
-        private void LooseGame()
+        private void CheckWinCondition()
+        {
+            if (_totalScore >= _scoreToWin)
+            {
+                _bird.Stop();
+                Debug.Log("Вы ПОБЕДИЛИ!");
+                _isRunning = false;
+            }
+        }
+        
+        private bool IsOutOfBoundary()
+        {
+            Vector3 position = _bird.transform.position;
+            return position.y > _upperYLimit ||
+                   position.y < _lowerYLimit ||
+                   position.x > _rightXLimit ||
+                   position.x < _leftXLimit;
+        }
+
+        private void LoseGame()
         {
             _bird.gameObject.SetActive(false);
             Debug.Log(LooseMessage);
-            Debug.Log($"Ваш счёт {_bird.JumpCount}");
-            isRunning = false;
+            Debug.Log($"Ваш счёт {_totalScore}");
+            _isRunning = false;
         }
 
         private void StartGame()
         {
-            _bird.GetComponent<Rigidbody>().isKinematic = false;    
-            _bird.gameObject.SetActive(true);
-            _bird.transform.position = new Vector3(0, 0, 0);
-            _bird.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-            _bird.RestJumpCounter();
-
-            _upperBoundary.transform.position = new Vector3(0, _upperYLimmit+.5f, 0);
-            _lowerBoundary.transform.position = new Vector3(0, _lowerYLimmit-.5f, 0);
-            _rightBoundary.transform.position = new Vector3(_rightXLimmit+.5f, 1, 0);
-            _leftBoundary.transform.position = new Vector3(_leftXLimmit-.5f, 1, 0);
+            if (_isRunning)
+                return;
             
-            isRunning = true;
+            _bird.RestJumpCounter();
+            _bird.gameObject.SetActive(true);
+            _bird.transform.position = Vector3.zero;
+            _bird.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            _bird.GetComponent<Rigidbody>().isKinematic = false;    
+
+            _upperBoundary.transform.position = new Vector3(0, _upperYLimit+boundaryOffset, 0);
+            _lowerBoundary.transform.position = new Vector3(0, _lowerYLimit-boundaryOffset, 0);
+            _rightBoundary.transform.position = new Vector3(_rightXLimit+boundaryOffset, 1, 0);
+            _leftBoundary.transform.position = new Vector3(_leftXLimit-boundaryOffset, 1, 0);
+            
+            _isRunning = true;
         }
     }
 }
