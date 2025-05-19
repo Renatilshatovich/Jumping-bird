@@ -18,7 +18,6 @@ namespace DefaultNamespace
         [SerializeField] private GameObject _leftBoundary;
 
         [Header("Boundaries")]
-        private float boundaryOffset = 0.5f;
         [SerializeField] private float _upperYLimit = 5;
         [SerializeField] private float _lowerYLimit = -4;
         [SerializeField] private float _rightXLimit = 6;
@@ -88,10 +87,10 @@ namespace DefaultNamespace
             _bird.GetComponent<Rigidbody>().velocity = Vector3.zero;
             _bird.GetComponent<Rigidbody>().isKinematic = false;    
 
-            _upperBoundary.transform.position = new Vector3(0, _upperYLimit+boundaryOffset, 0);
-            _lowerBoundary.transform.position = new Vector3(0, _lowerYLimit-boundaryOffset, 0);
-            _rightBoundary.transform.position = new Vector3(_rightXLimit+boundaryOffset, 1, 0);
-            _leftBoundary.transform.position = new Vector3(_leftXLimit-boundaryOffset, 1, 0);
+            _upperBoundary.transform.position = new Vector3(0, _upperYLimit, 0);
+            _lowerBoundary.transform.position = new Vector3(0, _lowerYLimit, 0);
+            _rightBoundary.transform.position = new Vector3(_rightXLimit, 1, 0);
+            _leftBoundary.transform.position = new Vector3(_leftXLimit, 1, 0);
             
             _isRunning = true;
         }
