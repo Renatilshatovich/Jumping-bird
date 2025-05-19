@@ -11,22 +11,51 @@ public class Bird : MonoBehaviour
     public int HorizontalJumps { get; private set; }
     
     private Rigidbody _rigidbody;
-    
 
-    private void Awake() => 
+    private float _defaultScale;
+    private float _targetScale;
+    private float _additiveScalePerJump = .25f;
+
+    private float MaxScale => _defaultScale * 2;
+
+    private void Awake()
+    {
+        _defaultScale = _targetScale = transform.localScale.x;
         _rigidbody = GetComponent<Rigidbody>();
+    }
 
     private void Update()
     {
+        UpdateScale();
         
-        if (Input.GetKeyDown(KeyCode.Space)) 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            IncreaseTargetScale();
             Jump();
+        }
         
         if (Input.GetKeyUp(KeyCode.LeftArrow)) 
             MoveLeft();
 
         if (Input.GetKeyUp(KeyCode.RightArrow)) 
             MoveRight();
+        
+    }
+
+    private void IncreaseTargetScale()
+    {
+        _targetScale += _additiveScalePerJump;
+
+        if (_targetScale > MaxScale)
+            _targetScale = MaxScale;
+    }
+
+    private void UpdateScale()
+    {
+        if (_targetScale > _defaultScale)
+            _targetScale -= Time.deltaTime;
+        
+        transform.localScale = new Vector3(_targetScale, _targetScale, _targetScale);
     }
 
     private void MoveRight()
