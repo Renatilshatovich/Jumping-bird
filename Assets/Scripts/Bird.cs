@@ -5,7 +5,9 @@ public class Bird : MonoBehaviour
 { 
     [Header("Jump Settings")]
     [SerializeField] private Vector3 _jumpForce = new Vector3(0, 10, 0);
-    [SerializeField] private int _movePower = 7;     
+    [SerializeField] private int _movePower = 7;
+    [SerializeField] private ParticleSystem _jumpEffect;
+    [SerializeField] private ParticleSystem _dieEffect;
     
     public int VerticalJumps { get; private set; }
     public int HorizontalJumps { get; private set; }
@@ -73,6 +75,7 @@ public class Bird : MonoBehaviour
     private void Jump()
     {
         _rigidbody.AddForce(_jumpForce, ForceMode.Impulse);
+        _jumpEffect.Play();
         VerticalJumps++;
     }
 
@@ -84,6 +87,12 @@ public class Bird : MonoBehaviour
         _rigidbody.isKinematic = false;
     }
 
+    public void Kill()
+    {
+        gameObject.SetActive(false);
+        _dieEffect.transform.position = transform.position;
+        _dieEffect.Play();
+    }
 
     public void Stop() => 
         _rigidbody.isKinematic = true;

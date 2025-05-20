@@ -70,7 +70,7 @@ namespace DefaultNamespace
 
         private void LoseGame()
         {
-            _bird.gameObject.SetActive(false);
+            _bird.Kill();
             Debug.Log(LooseMessage);
             Debug.Log($"Ваш счёт {_totalScore}");
             _isRunning = false;

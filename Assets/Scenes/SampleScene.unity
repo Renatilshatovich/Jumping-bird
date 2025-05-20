@@ -1137,6 +1137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpForce: {x: 0, y: 10, z: 0}
   _movePower: 7
+  _jumpEffect: {fileID: 1371084943}
+  _dieEffect: {fileID: 1961554910}
 --- !u!4 &210846554
 Transform:
   m_ObjectHideFlags: 0
@@ -3868,7 +3870,7 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.83137256, g: 0.7020184, b: 0.16862746, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
