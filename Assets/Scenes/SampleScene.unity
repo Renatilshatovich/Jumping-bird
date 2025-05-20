@@ -4581,7 +4581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3d1c2364544d358181aa466be545a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scoreToWin: 20
+  _scoreToWin: 40
   _bird: {fileID: 210846553}
   _upperBoundary: {fileID: 587840120}
   _lowerBoundary: {fileID: 604818028}
